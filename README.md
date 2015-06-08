@@ -12,11 +12,13 @@ Boot task to `gzip` files and nothing else.
 
 **In a shell**
 
-In a terminal you can compile any `defstyles`-defined stylesheet as follows:
+In a terminal you can gzip any files without having a Boot based project present like this:
 
 ```
 ;; you can use --files or just -f
-boot gzip --files normalize.css:n.css.gz -f reset.css:r.css.gz
+boot --resource-paths "resources" \
+     -d org.martinklepsch/boot-gzip gzip \
+     gzip --files normalize.css:n.css.gz -f reset.css:r.css.gz
 ```
 
 **In your `build.boot`**
@@ -27,7 +29,7 @@ boot gzip --files normalize.css:n.css.gz -f reset.css:r.css.gz
                 "reset.css"     "r.css.gz"}))
 ```
 
-**You can try this in the example directory of this project
+**You can try this in the `example/` directory of this project**
 
 ## Options
 
