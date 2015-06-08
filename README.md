@@ -29,6 +29,11 @@ boot --resource-paths "resources" \
                 "reset.css"     "r.css.gz"}))
 ```
 
+The tasks output will look show original and new filesizes as well savings in percent.
+```
+Gzipped normalize.css (7.6 KiB) to n.css.gz (2.5 KiB), saving 67%
+Gzipped reset.css (1.1 KiB) to r.css.gz (615 B), saving 44%
+```
 **You can try this in the `example/` directory of this project**
 
 ## Options
