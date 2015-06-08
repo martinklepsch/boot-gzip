@@ -24,6 +24,8 @@ boot --resource-paths "resources" \
 **In your `build.boot`**
 
 ```
+(require '[org.martinklepsch.boot-gzip :refer [gzip]])
+
 (deftask compress []
   (gzip :files {"normalize.css" "n.css.gz"
                 "reset.css"     "r.css.gz"}))
