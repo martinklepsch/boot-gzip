@@ -32,19 +32,38 @@
   (with-open [output (-> output io/output-stream GZIPOutputStream.)]
     (apply io/copy input output opts)))
 
+(defn ^:private origin-target-from-regex [regexes fileset]
+  (into {}
+        (for [f (c/by-re regexes (c/input-files fileset))]
+          {(:path f) (str (:path f) ".gz")})))
+
 (c/deftask gzip
-  [f files ORIGIN:TARGET {str str} "{origin target} map of files to gzip"]
+  "Generic Boot task to compress files using Gzip.
+
+   All files matching the regular expression provided
+   will be gzipped to their original location with .gz appended
+
+   Also you can supply arbitrary {origin target} mappings
+   using the `files` option.
+
+   If a file is matched by the regex and the files option the
+   latter takes precedence."
+  [r regex REGEX         [regex]   "Gzip all matching files to their respective location and append .gz"
+   f files ORIGIN:TARGET {str str} "{origin target} map of files to gzip"]
   (let  [tmp (c/tmp-dir!)]
     (c/with-pre-wrap fileset
-      (doseq [[origin target] files]
-        (let [in  (file-by-path origin fileset)
-              out (io/file tmp target)]
-          (io/make-parents out)
-          (gzip-file in out)
-          (let [origin-size (.length in)
-                new-size    (.length out)]
-            (u/info "Gzipped %s (%s) to %s (%s), saving %s%%\n"
-                    origin (bytes->human-readable origin-size)
-                    target (bytes->human-readable new-size)
-                    (percent-saved origin-size new-size)))))
+      (let [from-regex  (origin-target-from-regex regex fileset)
+            to-compress (merge from-regex files)]
+        (u/dbug "Gzip mapping: %s\n"(pr-str to-compress))
+        (doseq [[origin target] to-compress]
+          (let [in  (file-by-path origin fileset)
+                out (io/file tmp target)]
+            (io/make-parents out)
+            (gzip-file in out)
+            (let [origin-size (.length in)
+                  new-size    (.length out)]
+              (u/info "Gzipped %s (%s) to %s (%s), saving %s%%\n"
+                      origin (bytes->human-readable origin-size)
+                      target (bytes->human-readable new-size)
+                      (percent-saved origin-size new-size))))))
       (-> fileset (c/add-resource tmp) c/commit!))))
