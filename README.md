@@ -30,7 +30,7 @@ boot --resource-paths "resources" \
   (gzip :files {"normalize.css" "n.css.gz"
                 "reset.css"     "r.css.gz"}
         ;; Also you can compress files matching regular expressions:
-        :regex ["nested/*"]))
+        :regex [#"nested/*"]))
 ```
 
 The tasks output will look show original and new filesizes as well savings in percent.
