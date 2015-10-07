@@ -34,8 +34,9 @@
 
 (defn ^:private origin-target-from-regex [regexes fileset]
   (into {}
-        (for [f (c/by-re regexes (c/input-files fileset))]
-          {(:path f) (str (:path f) ".gz")})))
+        (when (seq regexes)
+          (for [f (c/by-re regexes (c/input-files fileset))]
+            {(:path f) (str (:path f) ".gz")}))))
 
 (c/deftask gzip
   "Generic Boot task to compress files using Gzip.

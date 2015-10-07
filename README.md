@@ -4,7 +4,7 @@ Boot task to `gzip` files and nothing else.
 
 [](dependency)
 ```clojure
-[org.martinklepsch/boot-gzip "0.1.1"] ;; latest release
+[org.martinklepsch/boot-gzip "0.1.2"] ;; latest release
 ```
 [](/dependency)
 

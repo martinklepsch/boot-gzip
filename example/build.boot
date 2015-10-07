@@ -1,6 +1,6 @@
 (set-env!
  :resource-paths #{"resources"}
- :dependencies '[[org.martinklepsch/boot-gzip "0.1.1"]])
+ :dependencies '[[org.martinklepsch/boot-gzip "0.1.2"]])
 
 (require '[org.martinklepsch.boot-gzip :refer [gzip]])
 
