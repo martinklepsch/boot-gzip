@@ -1,7 +1,7 @@
 (set-env!
   :source-paths #{"src"}
-  :dependencies '[[org.clojure/clojure       "1.6.0"  :scope "provided"]
-                  [adzerk/bootlaces          "0.1.11" :scope "test"]])
+  :dependencies '[[org.clojure/clojure "1.6.0"  :scope "provided"]
+                  [adzerk/bootlaces    "0.1.11" :scope "test"]])
 
 (require '[adzerk.bootlaces :refer [bootlaces! build-jar push-release]])
 
