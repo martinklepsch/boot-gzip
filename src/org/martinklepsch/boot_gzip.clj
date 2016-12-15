@@ -15,9 +15,11 @@
            (format "%.1f %sB" (/ bytes (Math/pow unit exp)) pre)))))
 
 (defn ^:private percent-saved [old new]
-  (-> (* 100 (/ (- old new) old))
-      float
-      java.lang.Math/round))
+  (if (not= old 0)
+    (-> (* 100 (/ (- old new) old))
+        float
+        java.lang.Math/round)
+    0))
 
 (defn ^:private file-by-path [path fileset]
   (c/tmp-file (get (:tree fileset) path)))
